@@ -4,10 +4,19 @@ const hbs = require('koahub-handlebars');
 const oracledb = require('oracledb');
 
 const renderView = require('./util/render-view');
-
+const executePLSQL = require('./util/db');
 
 router
     .get('home', '/', async (ctx, next) => {
+
+        // executePLSQL("select 2+2 from dual", [], (err, result) => {
+        //     if (err) {
+        //         console.log(err.message);
+        //     } else {
+        //         console.log(result.rows);
+        //     }
+        // });
+
         ctx.body = await renderView('./www/home.hbs');
         await next();
     })
@@ -30,29 +39,7 @@ app
     .use(router.allowedMethods());
 
 // app.use(async (ctx, next) => {
-
-//     // oracledb.getConnection(
-//     //     {
-//     //         user: "root",
-//     //         password: "root",
-//     //         connectString: "localhost/XE"
-//     //     }
-//     // ).then(connection => {
-//     //     return connection.execute(
-//     //         "select 2+2 from dual", []
-//     //     ).then(result => {
-//     //         console.log(result.metaData);
-//     //         console.log(result.rows);
-
-//     //         return connection.release();
-//     //     }).catch(err => {
-//     //         console.log(err.message);
-//     //         return connection.release();
-//     //     })
-//     // }).catch(err => console.log(err.message));
-
 //     await ctx.render('home');
-
 // });
 
 app.listen(3000);
