@@ -1,0 +1,30 @@
+{
+  "name": "kinfs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "killall node && node --harmony index.js"
+  },
+  "keywords": [
+    "oracle",
+    "nodejs",
+    "oracledb",
+    "pl/sql"
+  ],
+  "author": "Denis Yakovenko",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.0.0-alpha.7",
+    "oracledb": "^1.11.0"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-preset-es2017": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "nodemon": "^1.11.0"
+  }
+}
