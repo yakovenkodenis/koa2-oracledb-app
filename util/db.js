@@ -4,9 +4,9 @@ const oracledb = require('oracledb');
 const executePLSQL = (statement, params=[], callback) => {
     oracledb.getConnection(
         {
-            user: "root",
-            password: "root",
-            connectString: "localhost/XE"
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            connectString: process.env.DB_CONNECTION_STRING
         }
     ).then(connection => {
         return connection.execute(

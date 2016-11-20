@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const Koa = require('koa');
 const router = require('koa-router')();
 const hbs = require('koahub-handlebars');
