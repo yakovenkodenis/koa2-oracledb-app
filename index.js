@@ -1,12 +1,14 @@
 require('dotenv').config();
 
 const Koa = require('koa');
+const serve = require('koa-static');
 const router = require('koa-router')();
 const hbs = require('koahub-handlebars');
 const oracledb = require('oracledb');
 
 const renderView = require('./util/render-view');
 const executePLSQL = require('./util/db');
+
 
 router
     .get('home', '/', async (ctx, next) => {
@@ -38,10 +40,7 @@ app.use(hbs.middleware({
 
 app
     .use(router.routes())
-    .use(router.allowedMethods());
-
-// app.use(async (ctx, next) => {
-//     await ctx.render('home');
-// });
+    .use(router.allowedMethods())
+    .use(serve(__dirname + '/static'));
 
 app.listen(3000);

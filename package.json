@@ -20,6 +20,7 @@
     "koa": "^2.0.0-alpha.7",
     "koa-handlebars": "git+https://github.com/dominicbarnes/koa-handlebars.git#5b0fa333d4",
     "koa-router": "^7.0.1",
+    "koa-static": "^3.0.0",
     "koahub-handlebars": "^2.0.3",
     "oracledb": "^1.11.0"
   },
