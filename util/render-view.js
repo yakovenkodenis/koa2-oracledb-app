@@ -1,3 +1,5 @@
+/* @flow weak */
+
 const fs = require('fs-promise');
 const Handlebars = require('handlebars');
 const layouts = require('handlebars-layouts');

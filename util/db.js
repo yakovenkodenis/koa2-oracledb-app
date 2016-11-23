@@ -1,3 +1,5 @@
+/* @flow weak */
+
 const oracledb = require('oracledb');
 
 
