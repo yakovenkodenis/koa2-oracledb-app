@@ -3,7 +3,6 @@ require('dotenv').config();
 const Koa = require('koa');
 const serve = require('koa-static');
 const router = require('koa-router')();
-const hbs = require('koahub-handlebars');
 const oracledb = require('oracledb');
 
 const renderView = require('./util/render-view');
@@ -21,7 +20,7 @@ router
         //     }
         // });
 
-        ctx.body = await renderView('./www/home.hbs');
+        ctx.body = await renderView('./www/views/index.hbs');
         await next();
     })
     .get('test', '/test', async (ctx, next) => {
@@ -30,13 +29,6 @@ router
     });
 
 const app = new Koa();
-
-app.use(hbs.middleware({
-    extname: '.hbs',
-    viewPath: './www',
-    layoutsPath: './www',
-    partialsPath: './www'
-}));
 
 app
     .use(router.routes())
