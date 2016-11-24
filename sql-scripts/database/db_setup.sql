@@ -47,9 +47,9 @@ create table authors (
 
 create table books (
   id number(5) not null primary key,
-  name varchar2(20) not null,
+  name varchar2(200) not null,
   description varchar2(2000),
-  cover_img clob,
+  cover_img varchar2(300),
   available_count number(4) not null,
   price number(10, 2) default null,
   author_id number(5) references authors(id) on delete cascade,
@@ -180,9 +180,9 @@ create or replace package body books_store is
       
       exception
         when not_enough_books_in_store then
-          raise_application_error(-10001, 'Not enough books in store');
+          raise_application_error(-20001, 'Not enough books in store');
         when negative_or_zero_count then
-          raise_application_error(-10002, 'You cannot buy 0 or less books');
+          raise_application_error(-20002, 'You cannot buy 0 or less books');
     end buy_book;
   
   procedure add_books_to_store(
@@ -205,8 +205,10 @@ create or replace package body books_store is
         price = book_price;
         
       if existing_books_count = 0 then
-        insert into books values (books_seq.nextval, book_name, book_description,
-          book_cover_img, books_count, book_author_id, book_publisher_id, book_price);
+        insert into books
+          (id, name, description, cover_img, available_count, price, author_id, publisher_id) 
+          values (books_seq.nextval, book_name, book_description,
+          book_cover_img, books_count, book_price, book_author_id, book_publisher_id);
       else
         update books set available_count = available_count + books_count
           where
@@ -217,7 +219,7 @@ create or replace package body books_store is
       
       exception
         when add_negative_or_zero_books then
-          raise_application_error(-10003, 'You cannot add 0 or less books');
+          raise_application_error(-20003, 'You cannot add 0 or less books');
     end add_books_to_store;
 
   procedure register_user(
@@ -236,7 +238,7 @@ create or replace package body books_store is
       
       exception
         when user_already_exists then
-          raise_application_error(-20001, 'User with email <' || user_email || '> already exists');
+          raise_application_error(-20004, 'User with email <' || user_email || '> already exists');
     end register_user;
     
   procedure add_author(
@@ -257,7 +259,7 @@ create or replace package body books_store is
       
       exception
         when author_already_exists then
-          raise_application_error(-30001, 'Author already exists');
+          raise_application_error(-20005, 'Author already exists');
     end add_author;
     
   procedure cascade_remove_author(author_id authors.id%type) is
@@ -279,7 +281,7 @@ create or replace package body books_store is
       
       exception
         when publisher_already_exists then
-          raise_application_error(-40001, 'Publisher already exists');
+          raise_application_error(-20006, 'Publisher already exists');
     end add_publisher;
     
   procedure cascade_remove_publisher(publisher_id publishers.id%type) is
@@ -320,7 +322,7 @@ create or replace package body books_store is
       
       exception
         when too_large_discount then
-          raise_application_error(-50001, 'Discount cannot be more than 99%');
+          raise_application_error(-20007, 'Discount cannot be more than 99%');
     end set_discount_for_publisher;
 
 end books_store;
