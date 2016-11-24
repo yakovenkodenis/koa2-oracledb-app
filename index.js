@@ -16,10 +16,9 @@ const dataOps = require('./data-ops');
 router
     .get('home', '/', async (ctx, next) => {
 
-        // const data = await executePLSQL('select * from books', []);
+        const { rows } = await executePLSQL(...dataOps.getAllBooks());
 
-
-        ctx.body = await renderView('./www/views/index.hbs');
+        ctx.body = await renderView('./www/views/index.hbs', { books: rows });
         await next();
     })
     .get('test', '/test', async (ctx, next) => {

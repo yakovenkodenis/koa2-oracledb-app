@@ -29,5 +29,12 @@
             data-response-handler="responseHandler">
         </table>
 
+        {{#each books}}
+            <div>
+                <h2>{{@index}}</h2>
+                <p>{{this}}</p>
+            </div>
+        {{/each}}
+
     {{/content}}
 {{/extend}}
