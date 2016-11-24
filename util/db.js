@@ -5,7 +5,7 @@ oracledb.autoCommit = true;
 
 const defaultCallback = (err, result) => {
     if (err) {
-        console.log("ERROR\n", err);
+        console.log(err);
     } else {
         console.log(result.rows);
     }

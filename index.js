@@ -16,24 +16,32 @@ const dataOps = require('./data-ops');
 router
     .get('home', '/', async (ctx, next) => {
 
-        const imageData = await remoteBase64('https://images-na.ssl-images-amazon.com/images/I/51A6rmAqknL._SX309_BO1,204,203,200_.jpg');
+        // executePLSQL(...dataOps.addAuthor('Harper', 'Lee', '28/4/1926'));
 
-        const statement = dataOps.addBooksToStore(
-            'To Kill a Mockingbird',
-            1,
-            "Shoot all the bluejays you want, if you can hit 'em, but remember it's a sin to kill a mockingbird.",
-            1,
-            imageData,
-            10,
-            6.99
-        );
-        executePLSQL(...statement, (err, result) => {
+        executePLSQL('select * from authors', [], (err, result) => {
             if (err) {
-                console.log("ERROR\n", err);
+                console.log(err);
             } else {
                 console.log(result);
             }
         });
+
+        // const statement = dataOps.addBooksToStore(
+        //     'To Kill a Mockingbird',
+        //     1,
+        //     "Shoot all the bluejays you want, if you can hit em, but remember it's a sin to kill a mockingbird.",
+        //     1,
+        //     'https://images-na.ssl-images-amazon.com/images/I/51A6rmAqknL._SX309_BO1,204,203,200_.jpg',
+        //     10,
+        //     6.99
+        // );
+        // executePLSQL(...statement, (err, result) => {
+        //     if (err) {
+        //         console.log(err);
+        //     } else {
+        //         console.log(result);
+        //     }
+        // });
 
 
         ctx.body = await renderView('./www/views/index.hbs');
