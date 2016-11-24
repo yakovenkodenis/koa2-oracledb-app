@@ -1,9 +1,17 @@
 /* @flow weak */
 
 const oracledb = require('oracledb');
+oracledb.autoCommit = true;
 
+const defaultCallback = (err, result) => {
+    if (err) {
+        console.log("ERROR\n", err);
+    } else {
+        console.log(result.rows);
+    }
+};
 
-const executePLSQL = (statement, params=[], callback) => {
+const executePLSQL = (statement, params=[], callback=defaultCallback) => {
     oracledb.getConnection(
         {
             user: process.env.DB_USER,

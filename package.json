@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "killall node && node --harmony index.js",
-    "flow:check": "./node_modules/.bin/flow check"
+    "flow:check": "./node_modules/.bin/flow check",
+    "sqldeveloper": "sudo /opt/sqldeveloper/sqldeveloper.sh"
   },
   "keywords": [
     "oracle",
@@ -25,6 +26,8 @@
     "koa-router": "^7.0.1",
     "koa-static": "^3.0.0",
     "koahub-handlebars": "^2.0.3",
+    "lodash": "^4.17.2",
+    "node-remote-base64": "^0.1.2",
     "oracledb": "^1.11.0"
   },
   "devDependencies": {

@@ -48,8 +48,8 @@ create table authors (
 create table books (
   id number(5) not null primary key,
   name varchar2(20) not null,
-  description varchar(2000),
-  cover_img blob,
+  description varchar2(2000),
+  cover_img clob,
   available_count number(4) not null,
   price number(10, 2) default null,
   author_id number(5) references authors(id) on delete cascade,
@@ -386,9 +386,9 @@ create or replace trigger log_server_errors
     end loop;
     
     insert into errors_registry
-      (error_datetime, error_user, db_name, error_stack, captured_sql)
+      (id, error_datetime, error_user, db_name, error_stack, captured_sql)
     values
-      (systimestamp, sys.login_user, sys.database_name,
-      dbms_utility.format_error_stack, stmt);
+      (errors_registry_seq.nextval, systimestamp, sys.login_user,
+      sys.database_name, dbms_utility.format_error_stack, stmt);
     commit;
   end;
