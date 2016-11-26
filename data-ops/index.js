@@ -11,6 +11,32 @@ const getAllBooks = () => [
     []
 ];
 
+const getAllAuthors = () => [
+    'select * from authors',
+    []
+];
+
+const getAllPublishers = () => [
+    'select * from publishers',
+    []
+];
+
+const updateBook = (id, name, price) => [
+    `update books set name = :new_name, price = :new_price where id = :id`,
+    [name, price, id]
+];
+
+const getAllBooksWithAuthorsAndPublishers = () => [
+    'select books.*, '
+        + 'authors.first_name as author_first_name, '
+        + 'authors.last_name as author_last_name, '
+        + 'authors.birthday as author_birthday, '
+        + 'publishers.name as publisher_name ' 
+        + 'from books, authors, publishers '
+        + 'where books.author_id = authors.id and books.publisher_id = publishers.id',
+    []
+];
+
 const getBooksCSVbyPublisher = (id) => [
     `begin :result := ${PACKAGE}.get_books_csv_by_publisher(:0); end;`,
     zipParams([id], oracledb.STRING)
@@ -93,5 +119,7 @@ module.exports = {
     addPublisher, cascadeRemovePublisher,
     createSale, setDiscountForPublisher,
 
-    getAllBooks
+    getAllBooks, getAllBooksWithAuthorsAndPublishers,
+    getAllAuthors, getAllPublishers,
+    updateBook
 };

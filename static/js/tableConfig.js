@@ -14,7 +14,7 @@ const initTable = () => {
                     align: 'center',
                     valign: 'middle'
                 }, {
-                    title: 'Item ID',
+                    title: 'Book ID',
                     field: 'id',
                     rowspan: 2,
                     align: 'center',
@@ -22,7 +22,7 @@ const initTable = () => {
                     sortable: true,
                     footerFormatter: totalTextFormatter
                 }, {
-                    title: 'Item Detail',
+                    title: 'Book Detail',
                     colspan: 3,
                     align: 'center'
                 }
@@ -30,19 +30,19 @@ const initTable = () => {
             [
                 {
                     field: 'name',
-                    title: 'Item Name',
+                    title: 'Book Name',
                     sortable: true,
                     editable: true,
                     align: 'center',
                     footerFormatter: totalNameFormatter
                 }, {
                     field: 'price',
-                    title: 'Item Price',
+                    title: 'Book Price',
                     sortable: true,
                     align: 'center',
                     editable: {
                         type: 'text',
-                        title: 'Item Price',
+                        title: 'Book Price',
                         validate(value) {
                             value = $.trim(value);
                             
@@ -51,7 +51,7 @@ const initTable = () => {
                             }
 
                             if (!/^\$/.test(value)) {
-                                return 'Thsi field need to start with $';
+                                return 'This field needs to start with $';
                             }
 
                             const data = $table.bootstrapTable('getData'),
@@ -63,25 +63,12 @@ const initTable = () => {
                     footerFormatter: totalPriceFormatter
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Book Operate',
                     align: 'center',
                     events: operateEvents,
                     formatter: operateFormatter
                 }
             ]
-        ],
-
-        data: [
-            {
-                id: 1,
-                name: 'Item 1',
-                price: '$1'
-            },
-            {
-                id: 2,
-                name: 'Item 2',
-                price: '$2'
-            }
         ]
     });
 
@@ -111,8 +98,24 @@ const initTable = () => {
         console.log(name, args);
     });
 
+    // Edit Book name or price
+    $table.on('editable-hidden.bs.table', (...args) => {
+        if (args[args.length - 1] === 'save') {
+            console.log('SAVING NEW DATA...');
+            console.log('New Field is', args[1], '===', args[2][args[1]]);
+        }
+    });
+
+    $table.on('load-success.bs.table', (e, data) => {
+        console.log('LOAD', data);
+        $table.bootstrapTable('load', data);
+    });
+
+    // Remove a Book
     $remove.click(() => {
         const ids = getIdSelections();
+
+        console.log('REMOVING', ids);
 
         $table.bootstrapTable('remove', {
             field: 'id',
@@ -129,37 +132,51 @@ const initTable = () => {
 };
 
 
-const getIdSelections = () => $.map($table.bootstrapTable('getSelections'), row => row.id);
+function getIdSelections() {
+    return $.map($table.bootstrapTable('getSelections'), row => row.id)
+}
 
-const responseHandler = (res) => {
+function responseHandler(res) {
+    console.log('RESPONSE HANDLER...');
+    console.log(res);
+    $table.bootstrapTable('load', res);
     $.each(res.rows, (i, row) => {
         row.state = $.inArray(row.id, selections) !== -1;
     });
     return res;
 };
 
-const detailFormatter = (index, row) => {
+function detailFormatter(index, row) {
     let html = [];
-    $.each(row, (key, value) => {
-        html.push(`<p><b>${key}</b> ${value}</p>`);
-    });
+    // let book = window.BOOKS.find(b => b[0] === row.id);
+    delete row['state'];
+    console.log($table.bootstrapTable('getData'));
+    $.each(row, (key, value) => html.push(`<p><b>${key}</b> ${value}</p>`));
+    // html.push(`
+    //     <p><b>description:</b> ${book[2]}</p>
+    //     <p><b>author:</b> ${book[9]} ${book[10]}</p>
+    //     <p><b>publisher:</b> ${book[13]}</p>
+    // `);
+
     return html.join('');
 };
 
-const operateFormatter = (value, row, index) => [
-    '<a class="like" href="javascript:void(0)" title="Like">',
-    '<i class="glyphicon glyphicon-heart"></i>',
-    '</a>',
-    '<a class="remove" href="javascript:void(0)" title="Remove">',
-    '<i class="glyphicon glyphicon-remove"></i>',
-    '</a>'
-].join('');
+function operateFormatter(value, row, index) {
+    return [
+        '<a class="like" href="javascript:void(0)" title="Like">',
+        '<i class="glyphicon glyphicon-heart"></i>',
+        '</a>',
+        '<a class="remove" href="javascript:void(0)" title="Remove">',
+        '<i class="glyphicon glyphicon-remove"></i>',
+        '</a>'
+    ].join('');
+}
 
-const totalTextFormatter = data => 'Total';
+function totalTextFormatter(data) { return 'Total'; }
 
-const totalNameFormatter = data => data.length;
+function totalNameFormatter (data) { data.length; }
 
-const totalPriceFormatter = data => {
+function totalPriceFormatter(data) {
     let total = 0;
 
     $.each(data, (i, row) => {
@@ -183,7 +200,7 @@ window.operateEvents = {
 };
 
 
-const getHeight = () => $(window).height() - $('h1').outerHeight(true);
+function getHeight() { return $(window).height() - $('h1').outerHeight(true); }
 
 
 $(() => {
@@ -222,7 +239,7 @@ $(() => {
     eachSeries(scripts, getScript, initTable);
 });
 
-const getScript = (url, callback) => {
+function getScript(url, callback) {
     let head = document.getElementsByTagName('head')[0];
     let script = document.createElement('script');
     script.src = url;

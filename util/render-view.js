@@ -23,6 +23,7 @@ const configHandleBars = (HandlebarsEngine) => {
 
     const partialsDirs = ['www/partials', 'www/layouts'];
     partialsDirs.forEach(dir => registerPartials(HandlebarsEngine, dir));
+    HandlebarsEngine.registerHelper('json', content => JSON.stringify(content));
 
     layouts.register(HandlebarsEngine);
 

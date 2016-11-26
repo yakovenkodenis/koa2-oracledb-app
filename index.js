@@ -4,10 +4,12 @@ require('dotenv').config();
 
 const Koa = require('koa');
 const serve = require('koa-static');
+const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
 const oracledb = require('oracledb');
 const remoteBase64 = require('node-remote-base64');
 
+const api = require('./api');
 const renderView = require('./util/render-view');
 const executePLSQL = require('./util/db');
 const dataOps = require('./data-ops');
@@ -15,10 +17,7 @@ const dataOps = require('./data-ops');
 
 router
     .get('home', '/', async (ctx, next) => {
-
-        const { rows } = await executePLSQL(...dataOps.getAllBooks());
-
-        ctx.body = await renderView('./www/views/index.hbs', { books: rows });
+        ctx.body = await renderView('./www/views/index.hbs');
         await next();
     })
     .get('test', '/test', async (ctx, next) => {
@@ -30,6 +29,8 @@ const app = new Koa();
 
 app
     .use(router.routes())
+    .use(bodyParser())
+    .use(api.routes())
     .use(router.allowedMethods())
     .use(serve(__dirname + '/static'));
 
