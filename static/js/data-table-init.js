@@ -10,7 +10,8 @@ $(document).ready(function() {
                 name: "name"
             }, {
                 label: "Book Description:",
-                name: "description"
+                name: "description",
+                type: "textarea"
             }, {
                 label: "Price:",
                 name: "price"
