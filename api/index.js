@@ -44,7 +44,7 @@ api
             user_id, book_id, books_count
         } = body;
 
-        const dbResponse = await executePLSQL(...dataOpts.buyBook(user_id, book_id, books_count));
+        const dbResponse = await executePLSQL(...dataOps.buyBook(user_id, book_id, books_count));
         console.log('/books/buy');
         console.log(dbResponse);
 
@@ -86,7 +86,7 @@ api
             first_name, last_name, birthday
         } = body;
 
-        const dbResponse = await executePLSQL(...dataOpts.addAuthor(first_name, last_name, birthday));
+        const dbResponse = await executePLSQL(...dataOps.addAuthor(first_name, last_name, birthday));
         console.log('/authors/new');
         console.log(dbResponse);
 
