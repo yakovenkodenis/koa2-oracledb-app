@@ -14,14 +14,32 @@ const prepareData = dbResponse => {
 api
     .get('/books', async (ctx, next) => {
         const books = await executePLSQL(...dataOps.getAllBooksWithAuthorsAndPublishers());
+        const authors = await executePLSQL(...dataOps.getAllAuthors());
+        const publishers = await executePLSQL(...dataOps.getAllPublishers());
+
         const data = {
-            data: prepareData(books)
+            data: prepareData(books),
+            authors: prepareData(authors),
+            publishers: prepareData(publishers)
         };
         ctx.body = JSON.stringify(data);
     })
     .post('/books', async (ctx, next) => {
-        console.log('POOOST');
-        console.log(ctx.params);
+        const { request: { body } } = ctx;
+        const { action, data } = body;
+
+        console.log(body);
+        
+        switch (action) {
+            case 'create':
+                break;
+            case 'edit':
+                break;
+            case 'remove':
+                break;
+        }
+
+        ctx.status = 201;
     })
     .get('/authors', async (ctx, next) => {
         const authors = await executePLSQL(...dataOps.getAllAuthors());

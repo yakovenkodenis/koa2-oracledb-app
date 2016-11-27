@@ -1,8 +1,14 @@
 var editor; // use a global for the submit and return data rendering in the examples
- 
+var table;
 $(document).ready(function() {
+
     editor = new $.fn.dataTable.Editor( {
-        ajax: "api/v1/books",
+        ajax: {
+            url: "api/v1/books",
+            "data": (d) => {
+                console.log(d);
+            }
+        },
         table: "#example",
         idSrc: "id",
         fields: [ {
@@ -13,22 +19,27 @@ $(document).ready(function() {
                 name: "description",
                 type: "textarea"
             }, {
-                label: "Price:",
-                name: "price"
-            }, {
-                label: "Author First Name:",
-                name: "author_first_name"
-            }, {
-                label: "Author Last Name:",
-                name: "author_last_name",
+                label: "Author:",
+                name: "author_id",
+                type: "select",
+                options: [
+                    { label: 'Loading...', value: undefined }    
+                ]
             }, {
                 label: "Publisher:",
-                name: "publisher_name"
+                name: "publisher_id",
+                type: "select",
+                options: [
+                    { label: 'Loading...', value: undefined }    
+                ]
+            }, {
+                label: "Price:",
+                name: "price"
             }
         ]
     } );
- 
-    var table = $('#example').DataTable( {
+
+    table = $('#example').DataTable( {
         lengthChange: false,
         ajax: "api/v1/books",
         columns: [
@@ -42,7 +53,11 @@ $(document).ready(function() {
             } },
             { data: "publisher_name" },
         ],
-        select: true
+        select: true,
+        initComplete: (settings, json) => {
+            editor.field('author_id').update(getAllAuthorsAsOptions(json));
+            editor.field('publisher_id').update(getAllPublishersAsOptions(json));
+        }
     } );
  
     // Display the buttons
@@ -55,4 +70,17 @@ $(document).ready(function() {
     table.buttons().container()
         .appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
 
+
+    function getAllAuthorsAsOptions({ authors }) {
+        return authors.map(({ id, first_name, last_name }) => ({
+            label: `${first_name} ${last_name}`,
+            value: id
+        }));
+    }
+
+    function getAllPublishersAsOptions({ publishers }) {
+        return publishers.map(({ id, name }) => ({
+            label: name, value: id
+        }));
+    }
 } );

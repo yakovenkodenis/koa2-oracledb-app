@@ -22,6 +22,7 @@
     "dotenv": "^2.0.0",
     "handlebars-layouts": "^3.1.4",
     "koa": "^2.0.0-alpha.7",
+    "koa-better-body": "^3.0.2",
     "koa-bodyparser": "^3.2.0",
     "koa-handlebars": "git+https://github.com/dominicbarnes/koa-handlebars.git#5b0fa333d4",
     "koa-router": "^7.0.1",

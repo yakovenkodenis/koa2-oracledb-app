@@ -28,9 +28,10 @@ router
 const app = new Koa();
 
 app
-    .use(router.routes())
     .use(bodyParser())
+    .use(router.routes())
     .use(api.routes())
+    .use(api.allowedMethods())
     .use(router.allowedMethods())
     .use(serve(__dirname + '/static'));
 
