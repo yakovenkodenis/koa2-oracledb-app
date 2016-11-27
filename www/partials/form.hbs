@@ -1,9 +1,14 @@
-<form action="{{data.action}}" type="POST">
+<form action="{{data.action}}" method="POST">
     {{#each data.fields}}
         <div class="form-group">
             <label for="{{id}}">{{placeholder}}</label>
-            <input type="{{type}}" class="form-control" id="{{id}}" placeholder="{{placeholder}}">
+            <input
+                type="{{type}}"
+                class="form-control"
+                id="{{id}}"
+                placeholder="{{placeholder}}"
+                name="{{name}}">
         </div>
     {{/each}}
-    <button type="submit" class="btn btn-block btn-default">Submit</button>
+    <input type="submit" class="btn btn-block btn-default" value="Submit">
 </form>

@@ -28,6 +28,10 @@ router
     .get('errors', '/errors/', async (ctx, next) => {
         ctx.body = await renderView('./www/views/errors.hbs');
         await next();  
+    })
+    .get('sales', '/sales/', async (ctx, next) => {
+        ctx.body = await renderView('./www/views/sales.hbs');
+        await next();  
     });
 
 const app = new Koa();

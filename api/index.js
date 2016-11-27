@@ -38,6 +38,19 @@ api
         ctx.status = 201;
         ctx.body = JSON.stringify({ data });
     })
+    .post('/books/buy', async (ctx, next) => {
+        const { request: { body } } = ctx;
+        const {
+            user_id, book_id, books_count
+        } = body;
+
+        const dbResponse = await executePLSQL(...dataOpts.buyBook(user_id, book_id, books_count));
+        console.log('/books/buy');
+        console.log(dbResponse);
+
+        ctx.redirect('/forms');
+        ctx.status = 301;
+    })
     .put('/books/edit', async (ctx, next) => {
         const { request: { body: { data } } } = ctx;
         const key = Object.keys(data)[0];
@@ -67,12 +80,74 @@ api
         };
         ctx.body = JSON.stringify(data);
     })
+    .post('/authors/new', async (ctx, next) => {
+        const { request: { body } } = ctx;
+        const {
+            first_name, last_name, birthday
+        } = body;
+
+        const dbResponse = await executePLSQL(...dataOpts.addAuthor(first_name, last_name, birthday));
+        console.log('/authors/new');
+        console.log(dbResponse);
+
+        ctx.redirect('/forms');
+        ctx.status = 301;
+    })
+    .post('/authors/delete', async (ctx, next) => {
+        const { request: { body } } = ctx;
+        const { id } = body;
+
+        const dbResponse = await executePLSQL(...dataOps.cascadeRemoveAuthor(id));
+        console.log('/authors/delete');
+        console.log(dbResponse);
+
+        ctx.redirect('/forms');
+        ctx.status = 301;
+    })
     .get('/publishers', async (ctx, next) => {
         const publishers = await executePLSQL(...dataOps.getAllPublishers());
         const data = {
             data: prepareData(publishers)
         };
         ctx.body = JSON.stringify(data);
-    });
+    })
+    .post('/publishers/new', async (ctx, next) => {
+        const { request: { body } } = ctx;
+        const { name } = body;
+
+        const dbResponse = await executePLSQL(...dataOps.addPublisher(name));
+        console.log('/publishers/new');
+        console.log(dbResponse);
+
+        ctx.redirect('/forms');
+        ctx.status = 301;
+    })
+    .post('/publishers/delete', async (ctx, next) => {
+        const { request: { body } } = ctx;
+        const { id } = body;
+
+        const dbResponse = await executePLSQL(...dataOps.cascadeRemovePublisher(id));
+        console.log('/publishers/delete');
+        console.log(dbResponse);
+
+        ctx.redirect('/forms');
+        ctx.status = 301;
+    })
+    .post('/users/register', async (ctx, next) => {
+        const { request: { body } } = ctx;
+        const {
+            first_name, last_name,
+            email, password
+        } = body;
+
+        const dbResponse = await executePLSQL(...dataOps.registerUser(
+            first_name, last_name, email, password
+        ));
+        console.log('/users/register');
+        console.log(dbResponse);
+
+        ctx.redirect('/forms');
+        ctx.status = 301;
+    })
 
 module.exports = api;

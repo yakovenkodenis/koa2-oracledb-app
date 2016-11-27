@@ -1,96 +1,109 @@
 module.exports = {
     buy_book_data: {
-        action: "/books/buy",
+        action: "/api/v1/books/buy",
         fields: [
             {
                 id: "buy_book_form_user_id",
                 type: "number",
-                placeholder: "User ID"
+                placeholder: "User ID",
+                name: "user_id"
             },
             {
                 id: "buy_book_form_book_id",
                 type: "number",
-                placeholder: "Book ID"
+                placeholder: "Book ID",
+                name: "book_id"
             },
             {
                 id: "buy_book_form_books_count",
                 type: "number",
-                placeholder: "Number of books"
+                placeholder: "Number of books",
+                name: "books_count"
             }
         ]
     },
     register_user_data: {
-        action: "/users/register",
+        action: "/api/v1/users/register",
         fields: [
             {
                 id: "user_first_name",
                 type: "text",
-                placeholder: "User First Name"
+                placeholder: "User First Name",
+                name: "first_name"
             },
             {
                 id: "user_last_name",
                 type: "text",
-                placeholder: "User Last Name"
+                placeholder: "User Last Name",
+                name: "last_name"
             },
             {
                 id: "user_email",
                 type: "email",
-                placeholder: "User Email"
+                placeholder: "User Email",
+                name: "email"
             },
             {
                 id: "user_password",
                 type: "password",
-                placeholder: "User Password"
+                placeholder: "User Password",
+                name: "password"
             }
         ]
     },
     add_author_data: {
-        action: "/authors/new",
+        action: "/api/v1/authors/new",
         fields: [
             {
                 id: "author_first_name",
                 type: "text",
-                placeholder: "Author First Name"
+                placeholder: "Author First Name",
+                name: "first_name"
             },
             {
                 id: "author_last_name",
                 type: "text",
-                placeholder: "Author Last Name"
+                placeholder: "Author Last Name",
+                name: "last_name"
             },
             {
                 id: "author_birthday",
                 type: "data",
-                placeholder: "Author Birthday"
+                placeholder: "Author Birthday",
+                name: "birthday"
             }
         ]
     },
     add_publisher_data: {
-        action: "/publishers/new",
+        action: "/api/v1/publishers/new",
         fields: [
             {
                 id: "publisher_name",
                 type: "text",
-                placeholder: "Publisher Name"
+                placeholder: "Publisher Name",
+                name: "name"
             }
         ] 
     },
     cascade_remove_author_data: {
-        action: "/authors/delete",
+        action: "/api/v1/authors/delete",
         fields: [
             {
                 id: "author_id",
                 type: "number",
-                placeholder: "Author ID"
+                placeholder: "Author ID",
+                name: "id"
             }
         ] 
     },
     cascade_remove_publisher_data: {
-        action: "/publishers/delete",
+        action: "/api/v1/publishers/delete",
         fields: [
             {
                 id: "publisher_id",
                 type: "number",
-                placeholder: "Publisher ID"
+                placeholder: "Publisher ID",
+                name: "id"
             }
         ] 
     }
