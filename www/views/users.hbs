@@ -1,0 +1,28 @@
+{{#extend 'default'}}
+    {{#content 'content'}}
+
+        <table class="table table-hover">
+           <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each table}}
+                    <tr>
+                        {{#each this}}
+                            {{#if @last}}
+                            {{else}}
+                                <td>{{this}}</td>
+                            {{/if}}
+                        {{/each}}
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    
+    {{/content}}
+{{/extend}}

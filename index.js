@@ -25,12 +25,22 @@ router
         ctx.body = await renderView('./www/views/forms.hbs', formsData);
         await next();
     })
-    .get('errors', '/errors/', async (ctx, next) => {
-        ctx.body = await renderView('./www/views/errors.hbs');
+    .get('errors', '/errors', async (ctx, next) => {
+        const data = await executePLSQL(...dataOps.getErrorsRegistry());
+
+        ctx.body = await renderView('./www/views/errors.hbs', { table: data.rows} );
         await next();  
     })
-    .get('sales', '/sales/', async (ctx, next) => {
-        ctx.body = await renderView('./www/views/sales.hbs');
+    .get('sales', '/sales', async (ctx, next) => {
+        const data = await executePLSQL(...dataOps.getReadableSalesRegistry());
+
+        ctx.body = await renderView('./www/views/sales.hbs', { table: data.rows} );
+        await next();  
+    })
+    .get('users', '/users', async (ctx, next) => {
+        const data = await executePLSQL(...dataOps.getAllUsers());
+
+        ctx.body = await renderView('./www/views/users.hbs', { table: data.rows} );
         await next();  
     });
 

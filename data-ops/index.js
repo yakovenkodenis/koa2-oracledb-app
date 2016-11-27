@@ -120,6 +120,28 @@ const setDiscountForPublisher = (publisherId, discount) => [
     [publisherId, discount]
 ];
 
+const getErrorsRegistry = () => [
+    'select * from errors_registry',
+    []
+];
+
+const getSalesRegistry = () => [
+    'select * from sales_registry',
+    []
+];
+
+const getReadableSalesRegistry = () => [
+    "select sales.id, sales.sale_date, users.first_name || ' ' || "
+        + "users.last_name, books.name, books_count from users, "
+        + "books, sales where users.id = sales.user_id and books.id = sales.book_id",
+    []
+];
+
+const getAllUsers = () => [
+    'select * from users',
+    []
+];
+
 
 module.exports = {
     getBooksCSVbyPublisher, countAllBooksByAuthor,
@@ -131,5 +153,9 @@ module.exports = {
 
     getAllBooks, getAllBooksWithAuthorsAndPublishers,
     getAllAuthors, getAllPublishers,
-    updateBook, deleteBook
+    updateBook, deleteBook,
+
+    getErrorsRegistry, getSalesRegistry,
+    getReadableSalesRegistry,
+    getAllUsers
 };
