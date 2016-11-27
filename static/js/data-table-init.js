@@ -3,12 +3,7 @@ var table;
 $(document).ready(function() {
 
     editor = new $.fn.dataTable.Editor( {
-        ajax: {
-            url: "api/v1/books",
-            "data": (d) => {
-                console.log(d);
-            }
-        },
+        ajax: "api/v1/books",
         table: "#example",
         idSrc: "id",
         fields: [ {
