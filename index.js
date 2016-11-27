@@ -13,6 +13,7 @@ const api = require('./api');
 const renderView = require('./util/render-view');
 const executePLSQL = require('./util/db');
 const dataOps = require('./data-ops');
+const formsData = require('./util/form-data-helper');
 
 
 router
@@ -20,9 +21,13 @@ router
         ctx.body = await renderView('./www/views/index.hbs');
         await next();
     })
-    .get('test', '/test', async (ctx, next) => {
-        console.log('/Test');
+    .get('forms', '/forms', async (ctx, next) => {
+        ctx.body = await renderView('./www/views/forms.hbs', formsData);
         await next();
+    })
+    .get('errors', '/errors/', async (ctx, next) => {
+        ctx.body = await renderView('./www/views/errors.hbs');
+        await next();  
     });
 
 const app = new Koa();
