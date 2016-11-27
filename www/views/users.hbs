@@ -14,10 +14,9 @@
                 {{#each table}}
                     <tr>
                         {{#each this}}
-                            {{#if @last}}
-                            {{else}}
+                            {{#unless @last}}
                                 <td>{{this}}</td>
-                            {{/if}}
+                            {{/unless}}
                         {{/each}}
                     </tr>
                 {{/each}}
