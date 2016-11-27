@@ -1,3 +1,4 @@
+const qs = require('querystring');
 const api = require('koa-router')({
     prefix: '/api/v1'
 });
@@ -24,22 +25,40 @@ api
         };
         ctx.body = JSON.stringify(data);
     })
-    .post('/books', async (ctx, next) => {
-        const { request: { body } } = ctx;
-        const { action, data } = body;
+    .post('/books/new', async (ctx, next) => {
+        const { request: { body: { data } } } = ctx;
+        const row = data[0];
 
-        console.log(body);
-        
-        switch (action) {
-            case 'create':
-                break;
-            case 'edit':
-                break;
-            case 'remove':
-                break;
-        }
+        const dbResponse = await executePLSQL(...dataOps.addBooksToStore(
+            row.name, row.author_id, row.description,
+            row.publisher_id, row.book_cover_img,
+            row.available_count, row.price
+        ));
 
         ctx.status = 201;
+        ctx.body = JSON.stringify({ data });
+    })
+    .put('/books/edit', async (ctx, next) => {
+        const { request: { body: { data } } } = ctx;
+        const key = Object.keys(data)[0];
+        const row = data[key];
+
+        await executePLSQL(...dataOps.updateBook(
+            key, row.name, row.price, row.author_id, row.publisher_id,
+            row.available_count, row.cover_img
+        ));
+
+        ctx.status = 200;
+        ctx.body = JSON.stringify({ data });
+    })
+    .delete('/books/delete', async (ctx, next) => {
+        const { request: { url } } = ctx;
+        const id = Object.values(qs.parse(url))[0];
+
+        await executePLSQL(...dataOps.deleteBook(id));
+
+        ctx.status = 200;
+        ctx.body = { data: id }
     })
     .get('/authors', async (ctx, next) => {
         const authors = await executePLSQL(...dataOps.getAllAuthors());
@@ -54,6 +73,6 @@ api
             data: prepareData(publishers)
         };
         ctx.body = JSON.stringify(data);
-    })
+    });
 
 module.exports = api;

@@ -21,9 +21,19 @@ const getAllPublishers = () => [
     []
 ];
 
-const updateBook = (id, name, price) => [
-    `update books set name = :new_name, price = :new_price where id = :id`,
-    [name, price, id]
+const updateBook = (
+    id, name, price, author_id, publisher_id,
+    availabile_count, cover_img) => [
+    'update books set name = :new_name, price = :new_price, '
+        + 'author_id = :new_author_id, publisher_id = :new_pubisher_id, '
+        + 'available_count = :new_available_count, cover_img = :new_cover_img '
+        + 'where id = :id',
+    [name, price, author_id, publisher_id, availabile_count, cover_img, id]
+];
+
+const deleteBook = (id) => [
+    'delete from books where id = :id',
+    [id]
 ];
 
 const getAllBooksWithAuthorsAndPublishers = () => [
@@ -121,5 +131,5 @@ module.exports = {
 
     getAllBooks, getAllBooksWithAuthorsAndPublishers,
     getAllAuthors, getAllPublishers,
-    updateBook
+    updateBook, deleteBook
 };

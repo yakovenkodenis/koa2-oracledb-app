@@ -3,7 +3,20 @@ var table;
 $(document).ready(function() {
 
     editor = new $.fn.dataTable.Editor( {
-        ajax: "api/v1/books",
+        ajax: {
+            create: {
+                url: "api/v1/books/new",
+                type: "POST"
+            },
+            edit: {
+                url: "api/v1/books/edit",
+                type: "PUT"
+            },
+            remove: {
+                url: "api/v1/books/delete?id=_id_",
+                type: "DELETE"
+            }
+        },
         table: "#example",
         idSrc: "id",
         fields: [ {
@@ -30,6 +43,12 @@ $(document).ready(function() {
             }, {
                 label: "Price:",
                 name: "price"
+            }, {
+                label: "Number of books:",
+                name: "available_count"
+            }, {
+                label: "Cover Image Link:",
+                name: "cover_img"
             }
         ]
     } );
