@@ -1,7 +1,7 @@
 {{#extend 'default'}}
     {{#content 'content'}}
 
-        <a href="/">Go To Main Page</a>
+        {{> navigation}}
 
         <hr>
 
@@ -42,7 +42,44 @@
             </div>
         </div>
 
-        <br><hr><br>
+        <br><hr><br><br>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Set Discount for Publisher</h3>
+                {{> form data=set_discount_for_publisher_data }}
+            </div>
+            <div class="col-md-4">
+                <h3>Get Books CSV by Publisher</h3>
+                <form action="#" class="inline-form">
+                    <div class="form-group">
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="get_books_csv_input"
+                            placeholder="Publisher ID">
+                    </div>
+                    <button type="submit" class="btn btn-default" id="get_books_csv_btn">Get CSV</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <h3>Count all Books by Author</h3>
+                <form action="#" class="inline-form">
+                    <div class="form-group">
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="count_all_books_input"
+                            placeholder="Author ID">
+                    </div>
+                    <button type="submit" class="btn btn-default" id="count_all_books_btn">Get Count</button>
+                </form>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <hr>
 
     {{/content}}
 {{/extend}}

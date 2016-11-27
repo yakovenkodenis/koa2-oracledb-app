@@ -106,5 +106,22 @@ module.exports = {
                 name: "id"
             }
         ] 
+    },
+    set_discount_for_publisher_data: {
+        action: "/api/v1/publishers/set_discount",
+        fields: [
+            {
+                id: "publisher_id",
+                type: "number",
+                placeholder: "Publisher ID",
+                name: "id"
+            },
+            {
+                id: "discount",
+                type: "number",
+                placeholder: "Discount",
+                name: "discount"
+            }
+        ] 
     }
 };

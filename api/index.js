@@ -133,6 +133,17 @@ api
         ctx.redirect('/forms');
         ctx.status = 301;
     })
+    .post('/publishers/set_discount', async (ctx, next) => {
+        const { request: { body } } = ctx;
+        const { id, discount } = body;
+
+        const dbResponse = await executePLSQL(...dataOps.setDiscountForPublisher(id, discount));
+        console.log('/publishers/set_discount');
+        console.log(dbResponse);
+
+        ctx.redirect('/forms');
+        ctx.status = 301;
+    })
     .post('/users/register', async (ctx, next) => {
         const { request: { body } } = ctx;
         const {
@@ -149,5 +160,27 @@ api
         ctx.redirect('/forms');
         ctx.status = 301;
     })
+    .get('/books_csv_by_publisher', async (ctx, next) => {
+        const { request: { url } } = ctx;
+        const id = Object.values(qs.parse(url))[0];
+
+        try {
+            const dbResponse = await executePLSQL(...dataOps.getBooksCSVbyPublisher(id));
+            ctx.body = JSON.stringify(dbResponse.outBinds.result.slice(0, -1));
+        } catch (e) {
+            ctx.body = JSON.stringify(e);
+        }
+    })
+    .get('/count_all_books_by_author', async (ctx, next) => {
+        const { request: { url } } = ctx;
+        const id = Object.values(qs.parse(url))[0];
+
+        try {
+            const dbResponse = await executePLSQL(...dataOps.countAllBooksByAuthor(id));
+            ctx.body = JSON.stringify(dbResponse.outBinds.result);
+        } catch (e) {
+            ctx.body = JSON.stringify(e);
+        }
+    });
 
 module.exports = api;
