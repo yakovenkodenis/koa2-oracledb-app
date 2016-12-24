@@ -1,4 +1,4 @@
-# koa2-oracledb-app
+# Koa2 OracleDB app
 Simple Koa 2 app with business logic stored as procedures in Oracle Database.
 
 ## Installation Guide
